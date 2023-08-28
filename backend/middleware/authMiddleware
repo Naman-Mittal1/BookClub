@@ -1,0 +1,42 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/userModel');
+
+// Middleware to protect routes
+const protect = async (req, res, next) => {
+  try {
+    // Check if the token is provided in the request headers
+    const token = req.header('Authorization').replace('Bearer ', '');
+
+    if (!token) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Access denied. No token provided.',
+      });
+    }
+
+    // Verify the token
+    const decoded = jwt.verify(token, 'your-secret-key'); // Replace with your secret key
+
+    // Find the user based on the decoded token's ID
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Access denied. Invalid token.',
+      });
+    }
+
+    // Attach the user object to the request
+    req.user = user;
+
+    next(); // Move to the next middleware
+  } catch (err) {
+    res.status(401).json({
+      status: 'error',
+      message: 'Invalid token.',
+    });
+  }
+};
+
+exports.protect = protect;
