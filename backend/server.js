@@ -3,6 +3,8 @@ const http = require('http');
 const socketio = require('socket.io');
 const mongoose = require("mongoose");
 
+const cors = require('cors');
+
 const authRouter = require('./routes/authRoute');
 const bookRoutes = require('./routes/bookRoute'); 
 const reviewRoutes = require('./routes/reviewRoute'); 
@@ -12,7 +14,9 @@ const chatRoutes = require('./routes/chatRoutes');
 
 const app = express();
 app.use(express.json());
-
+app.use(cors({
+  origin: '*'
+}));
 
 const server = http.createServer(app);
 const io = socketio(server);
@@ -39,7 +43,7 @@ mongoose.connect("mongodb+srv://bookclub:bookclub@cluster0.lb105tt.mongodb.net/"
     console.log(err)
 })
 
-app.use('/api/auth', authRouter);
+app.use('/api/auth', cors(), authRouter);
 app.use('/api/books', bookRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/threads', threadRoutes);

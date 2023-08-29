@@ -28,10 +28,10 @@ const Header = () => {
     <header className="bg-gray-900 text-white py-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="space-x-4">
-          <span className='text-2xl font-semibold items-center ' style={{fontFamily: "'Comic Neue', cursive"}}>BookClub</span>
+          <Link to="/"  className='text-2xl font-semibold items-center ' style={{fontFamily: "'Comic Neue', cursive"}}>BookClub</Link>
         </div>
         <nav className="flex space-x-8">
-          <Link to="/" className="hover:text-gray-300">Home</Link>
+          {/* <Link to="/" className="hover:text-gray-300">Home</Link> */}
           <Link to="/browse-books" className="hover:text-gray-300">Browse Books</Link>
           <Link to="/activity-feed" className="hover:text-gray-300">Activity Feed</Link>
           <Link to="/chat" className="hover:text-gray-300">Chat</Link>

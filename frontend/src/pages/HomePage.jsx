@@ -1,6 +1,6 @@
 // HomePage.jsx
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import { BsSearch } from 'react-icons/bs';
 

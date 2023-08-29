@@ -1,15 +1,31 @@
 import React, { useState, useEffect } from "react";
-// import HomePage from "../../../pages/HomePage";
+import { loginUser } from "../../../api/auth";
 
 import { Link } from "react-router-dom";
 const LoginModal = ({ isOpen, onRequestClose }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-
-    console.log("Logging in with:", username, password);
+  
+    try {
+      const loginData = {
+        username: username,
+        password: password
+      };
+  
+      const result = await loginUser(loginData);
+  
+      console.log('Response status:', result.status);
+      console.log('Response status text:', result.statusText);
+      console.log('Response data:', result.data);
+  
+      // Handle the result from the backend...
+    } catch (error) {
+      console.error('Error logging in:', error);
+      // Handle the error...
+    }
   };
 
   useEffect(() => {
@@ -43,7 +59,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
         </button>
         <h2 className="text-white text-xl  font-semibold mb-2 text-center pb-3">Login</h2>
         <p className="text-white text-md mb-6">Welcome back!</p>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} method="POST">
           <label htmlFor="username" className="text-white block mb-1">
             
           </label>
