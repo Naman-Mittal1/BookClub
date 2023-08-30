@@ -11,20 +11,18 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
   
     try {
       const loginData = {
-        username: username,
-        password: password
+        username,
+        password
       };
-  
+
       const result = await loginUser(loginData);
   
       console.log('Response status:', result.status);
       console.log('Response status text:', result.statusText);
       console.log('Response data:', result.data);
   
-      // Handle the result from the backend...
     } catch (error) {
       console.error('Error logging in:', error);
-      // Handle the error...
     }
   };
 

@@ -92,6 +92,32 @@ const deleteBook = async (req, res) => {
   }
 };
 
+const searchBooks = async (req, res) => {
+  const filters = req.query;
+  
+  try {
+    const books = await Book.find();
+    const filteredBooks = books.filter(book => {
+      let isValid = true;
+      for (key in filters) {
+        isValid = isValid && book[key] == filters[key];
+      }
+      return isValid;
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: filteredBooks,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'error',
+      message: 'Error searching books',
+    });
+  }
+};
+
+exports.searchBooks = searchBooks;
 exports.getAllBooks = getAllBooks
 exports.getBookById = getBookById
 exports.addNewBook = addNewBook

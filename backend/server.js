@@ -2,6 +2,9 @@ const express = require("express");
 const http = require('http');
 const socketio = require('socket.io');
 const mongoose = require("mongoose");
+const cookieParser = require('cookie-parser')
+
+
 
 const cors = require('cors');
 
@@ -13,9 +16,14 @@ const chatRoutes = require('./routes/chatRoutes');
 
 
 const app = express();
+
+
 app.use(express.json());
+app.use(cookieParser())
+
 app.use(cors({
-  origin: '*'
+  origin: '*',
+  credentials: true,
 }));
 
 const server = http.createServer(app);

@@ -1,4 +1,3 @@
-// authController.js
 
 const User = require('../models/userModel');
 const bcrypt = require('bcryptjs');
@@ -25,6 +24,9 @@ const register = async (req, res) => {
 
     // Generate JWT token
     const token = generateToken(user.id);
+
+    // res.cookie('username', user.username);
+
 
     res.status(201).json({
       status: 'success',
@@ -64,8 +66,10 @@ const login = async (req, res) => {
       });
     }
 
-    // Generate JWT token if login successful
+
     const token = generateToken(user.id);
+
+    // res.cookie('username', user.username);
 
     res.status(200).json({
       status: 'success', 
@@ -104,16 +108,27 @@ const logout = async(req, res)=>{
 
 }
 
-const generateToken = (id) => {
+const verifyToken = (req, res, next) => {
   
-  // Hardcoded for simplicity, use env vars instead
-  return jwt.sign({ id }, 'secretkey', {
-    expiresIn: '30d'
-  });
+  const token = req.headers['authorization'].split(' ')[1];
 
+  try {
+    const decoded = jwt.verify(token, 'secretkey');
+    req.userId = decoded.id; 
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+}
+
+
+const generateToken = (userId) => {
+  return jwt.sign({ id: userId }, 'secretkey', { expiresIn: '1d' });
 }
 
 
 exports.register = register;
 exports.login = login;
 exports.logout = logout;
+exports.verifyToken = verifyToken

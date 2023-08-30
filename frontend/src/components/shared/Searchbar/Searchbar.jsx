@@ -1,30 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useDebounce } from 'react-use';
+import React, { useState } from 'react';
 import { searchBooks } from '../../../api/books';
 import { BsSearch } from 'react-icons/bs';
 
 const Searchbar = (query) => {
   const [search, setSearch] = useState('');
-  const debouncedSearch = useDebounce(search, 500); 
   const [searchResults, setSearchResults] = useState([]);
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        if (debouncedSearch.trim() === '') {
-          setSearchResults([]);
-          return;
-        }
 
-        const response = await searchBooks(debouncedSearch);
-        setSearchResults(response.data);
-      } catch (error) {
-        console.error('Error searching books:', error);
-      }
-    };
-
-    fetchBooks();
-  }, [debouncedSearch]);
+  const handleSearch = async () => {
+    try {
+      console.log('Search query:', search); // Log the search query
+      const response = await searchBooks(search);
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error('Error searching books:', error);
+    }
+  };
 
   return (
     <div className="flex flex-col items-center justify-center mb-20">
@@ -43,18 +34,24 @@ const Searchbar = (query) => {
             onChange={(e) => setSearch(e.target.value)}
             className="w-full py-3 px-6"
           />
-          <button className="absolute right-0 p-3 text-gray-500 hover:text-blue-500">
+          <button
+            className="absolute right-0 p-3 text-gray-500 hover:text-blue-500"
+            onClick={handleSearch}
+          >
             <BsSearch size={22} />
           </button>
         </div>
       </div>
+      {/* Display search results */}
       <div className="mt-4">
-        {searchResults.map(book => (
-          <div key={book._id} className="text-gray-700">
-            {book.title}
-          </div>
-        ))}
-      </div>
+  {searchResults.map(book => (
+    <div key={book._id} className="bg-white p-3 rounded-lg shadow-md mb-2">
+      {/* Display book information */}
+      <h3 className="text-lg font-semibold">{book.title}</h3>
+      <p className="text-gray-600">{book.author}</p>
+    </div>
+  ))}
+</div>
     </div>
   );
 };
