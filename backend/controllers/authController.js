@@ -4,89 +4,51 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
+    try{
+        const { name, username, email, password } = req.body;
+    const user = await User.findOne({ username });
+    if (user) {
+      return res.status(400).json({ message: "Username already exists" });
+    }
+    const checkEmail = await User.findOne({ email });
+    if (checkEmail) {
+        return res.status(400).json({ message: "Email already exists" });
+    }
 
-  const { name, username, email, password } = req.body;
-  console.log(req.body);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-  try {
-    
-    // Generate salt and hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    // Create new user
-    const user = await User.create({
-      name, 
-      username,
-      email,
-      password: hashedPassword
-    });
-
-    // Generate JWT token
-    const token = generateToken(user.id);
-
-    // res.cookie('username', user.username);
-
-
-    res.status(201).json({
-      status: 'success',
-      data: {
-        token,
-        user
-      } 
-    });
-
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({
-      status: 'error',
-      message: 'Error creating new user. Please try again'
-    });
+    const newUser = new User({ name, username, email, password: hashedPassword });
+    await newUser.save();
+    return res.status(200).json({ message: "User registered successfully" });
+    }catch(err){
+        return res.status(400).json({message: "Unable to register user"})
+    }
   }
-
-}
 
 
 const login = async (req, res) => {
+    try{
+        const { username, password } = req.body;
   
-  const { email, password } = req.body;
-
-  try {
-    
-    // Find user by email
-    const user = await User.findOne({ email });
-    
-    // Check if passwords match
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if(!isMatch) {
-      return res.status(401).json({
-        status: 'fail',
-        message: 'Incorrect email or password.'
-      });
+    const user = await User.findOne({ username });
+  
+    if (!user) {
+      return res
+        .status(400)
+        .json({ message: "Username is incorrect" });
     }
-
-
-    const token = generateToken(user.id);
-
-    // res.cookie('username', user.username);
-
-    res.status(200).json({
-      status: 'success', 
-      token,
-      data: {
-        user  
-      }
-    });
-
-  } catch (err) {
-    res.status(400).json({
-      status: 'error',
-      message: 'Error logging in user. Please try again.'
-    });
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .json({ message: "password is incorrect" });
+    }
+    const token = jwt.sign({ id: user._id }, "secret");
+    res.json({ token, userID: user._id });
+    }catch(err){
+        return res.status(400).json({message: "Unable to login user"})
+    }
   }
-
-}
 
 const logout = async(req, res)=>{
     res.clearCookie('token')
@@ -109,23 +71,18 @@ const logout = async(req, res)=>{
 }
 
 const verifyToken = (req, res, next) => {
-  
-  const token = req.headers['authorization'].split(' ')[1];
-
-  try {
-    const decoded = jwt.verify(token, 'secretkey');
-    req.userId = decoded.id; 
-    next();
-  } catch (err) {
-    return res.status(401).json({ message: 'Unauthorized' });
+  const authHeader = req.headers.authorization;
+  if (authHeader) {
+    jwt.verify(authHeader, "secret", (err) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+      next();
+    });
+  } else {
+    res.sendStatus(401);
   }
-
-}
-
-
-const generateToken = (userId) => {
-  return jwt.sign({ id: userId }, 'secretkey', { expiresIn: '1d' });
-}
+};
 
 
 exports.register = register;

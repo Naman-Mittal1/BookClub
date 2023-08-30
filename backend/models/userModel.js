@@ -17,7 +17,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true 
-  }
+  },
+  uploadedBooks: [{
+    type: mongoose.Schema.Types.ObjectId, ref:"Book"
+  }]
 });
 
 module.exports = mongoose.model('User', UserSchema);

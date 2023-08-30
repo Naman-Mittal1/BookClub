@@ -93,29 +93,20 @@ const deleteBook = async (req, res) => {
 };
 
 const searchBooks = async (req, res) => {
-  const filters = req.query;
-  
+
   try {
-    const books = await Book.find();
-    const filteredBooks = books.filter(book => {
-      let isValid = true;
-      for (key in filters) {
-        isValid = isValid && book[key] == filters[key];
-      }
-      return isValid;
+    const { query } = req.query;
+
+    const books = await Book.find({
+      $text: { $search: query } 
     });
 
-    res.status(200).json({
-      status: 'success',
-      data: filteredBooks,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: 'error',
-      message: 'Error searching books',
-    });
+    res.json(books);
+  } catch (error) {
+    console.error('Error searching books:', error);
+    res.status(500).json({ error: 'An error occurred while searching for books.' });
   }
-};
+}
 
 exports.searchBooks = searchBooks;
 exports.getAllBooks = getAllBooks

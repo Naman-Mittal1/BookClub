@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { loginUser } from "../../../api/auth";
+import axios from "axios";
+import {useCookies} from 'react-cookie'
+import { useNavigate } from "react-router-dom";
+// import { loginUser } from "../../../api/auth";
 
 import { Link } from "react-router-dom";
 const LoginModal = ({ isOpen, onRequestClose }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-  
+  const [, setCookies] = useCookies("access_token")
+
+  const navigate = useNavigate()
+
+  const handleLoginSubmit = async (event) => {
+    event.preventDefault();
+
     try {
-      const loginData = {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
         username,
         password
-      };
-
-      const result = await loginUser(loginData);
-  
-      console.log('Response status:', result.status);
-      console.log('Response status text:', result.statusText);
-      console.log('Response data:', result.data);
-  
+      });
+      alert("login")
+      setCookies("access_token", response.data.token)
+      window.localStorage.setItem("userID", response.data.userID)
+      navigate("/")
+      onRequestClose();
     } catch (error) {
-      console.error('Error logging in:', error);
+      alert("Username or Password is Incorrect")
+      console.error(error);
     }
   };
 
@@ -57,14 +63,14 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
         </button>
         <h2 className="text-white text-xl  font-semibold mb-2 text-center pb-3">Login</h2>
         <p className="text-white text-md mb-6">Welcome back!</p>
-        <form onSubmit={handleLogin} method="POST">
+        <form onSubmit={handleLoginSubmit} method="POST">
           <label htmlFor="username" className="text-white block mb-1">
             
           </label>
           <input
             type="text"
             id="username"
-            placeholder="Enter your email"
+            placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full p-3 bg-gray-800 text-white rounded mb-3"
@@ -104,7 +110,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
           Continue with Twitter
         </button> */}
         <p className="text-white text-sm text-center mt-2">
-          New to BookClub? <Link to='/' >Register now</Link>
+          New to BookClub? <Link to={'/'} >Register now</Link>
         </p>
       </div>
     </div>

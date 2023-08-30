@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getBooks } from "../../api/books";
 import BookCard from "../BookCard/BookCard";
-import Searchbar from "../shared/Searchbar/Searchbar";
+import SearchBar from "../shared/Searchbar/Searchbar";
 
 const BrowseBooks = () => {
   const [books, setBooks] = useState([]);
@@ -22,7 +22,7 @@ const BrowseBooks = () => {
 
   return (
     <div className="px-6 py-8 max-w-7xl mx-auto">
-      <Searchbar />
+      <SearchBar />
 
       <div className="">
         {books.map((book) => (

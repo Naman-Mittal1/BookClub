@@ -1,29 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import LoginModal from "../shared/modals/LoginModal";
-import RegisterModal from "../shared/modals/RegisterModal";
+import { useNavigate } from "react-router-dom";
+
+import {useCookies} from "react-cookie"
+import AuthModal from "./AuthModal";
 
 const Header = () => {
-  const [isLoginModalOpen, setLoginModalOpen] = useState(false);
-  const [isRegisterModalOpen, setRegisterModalOpen] = useState(false);
+
   const [isExploreDropdownOpen, setExploreDropdownOpen] = useState(false);
   const [isCommunityDropdownOpen, setCommunityDropdownOpen] = useState(false);
+  const [cookies, setCookies] = useCookies(["access_token"])
 
-  const openLoginModal = () => {
-    setLoginModalOpen(true);
-  };
-
-  const closeLoginModal = () => {
-    setLoginModalOpen(false);
-  };
-
-  const openRegisterModal = () => {
-    setRegisterModalOpen(true);
-  };
-
-  const closeRegisterModal = () => {
-    setRegisterModalOpen(false);
-  };
+  const navigate = useNavigate();
 
   const toggleExploreDropdown = () => {
     setExploreDropdownOpen(!isExploreDropdownOpen);
@@ -40,6 +28,12 @@ const Header = () => {
   const handleCommunityMouseLeave = () => {
     setCommunityDropdownOpen(false);
   };
+
+  const logout = () =>{
+    setCookies("access_token", "")
+    window.localStorage.removeItem("userID")
+    navigate("/")
+  }
 
   return (
     <header className="bg-gray-900 text-white py-4">
@@ -173,28 +167,11 @@ const Header = () => {
             Upload a book
           </Link>
         </nav>
-        <div className="space-x-4">
-          <button
-            className="hover:bg-blue-800 text-white px-4 py-2 rounded-lg bg-blue-900"
-            onClick={openLoginModal}
-          >
-            Login
-          </button>
-          <LoginModal
-            isOpen={isLoginModalOpen}
-            onRequestClose={closeLoginModal}
-          />
-          <button
-            className="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg"
-            onClick={openRegisterModal}
-          >
-            Signup
-          </button>
-          <RegisterModal
-            isOpen={isRegisterModalOpen}
-            onRequestClose={closeRegisterModal}
-          />
+        <div className=" flex gap-6">
+        {!cookies.access_token? '' : <button className="bg-gray-800 hover:bg-gray-800 text-white text-sm py-2 px-4 rounded" onClick={logout}>Request a Book</button>}
+        {!cookies.access_token? <AuthModal /> : <button className="bg-blue-800 hover:bg-blue-600 text-sm font-bold py-2 px-4 rounded" onClick={logout}>LogOut</button>}
         </div>
+       
       </div>
     </header>
   );

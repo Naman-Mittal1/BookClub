@@ -1,17 +1,30 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 // import HomePage from "../../../pages/HomePage";
 
 import { Link } from "react-router-dom";
-const LoginModal = ({ isOpen, onRequestClose }) => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+
+
+const RegisterModal = ({ isOpen, onRequestClose }) => {
   const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    console.log("Logging in with:", username, password);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/api/auth/register", {
+        name,
+        username,
+        email,
+        password,
+      });
+      alert("Registration Completed! Now login.");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -21,10 +34,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
       }
     };
 
-    // Add the event listener
     document.addEventListener("keydown", handleKeyDown);
-
-    // Clean up by removing the event listener on component unmount
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -47,7 +57,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
         </button>
         <h2 className="text-white text-xl mb-2 text-center pb-3">Register</h2>
         <p className="text-white text-md mb-6">Welcome to Book Club!</p>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleSubmit}>
 
          <label htmlFor="name" className="text-white block mb-1">
             
@@ -66,7 +76,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
           </label>
           <input
             type="text" 
-            id="email"
+            id="username"
             placeholder="Enter your username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -77,7 +87,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
             
           </label>
           <input
-            type="text" 
+            type="email" 
             id="email"
             placeholder="Enter your email"
             value={email}
@@ -122,4 +132,4 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
   );
 };
 
-export default LoginModal;
+export default RegisterModal;
