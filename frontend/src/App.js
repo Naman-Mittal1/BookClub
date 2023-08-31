@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Header from './components/Header/Header';
 import HomePage from './pages/HomePage';
-import Footer from './components/Footer/Footer';
+// import Footer from './components/Footer/Footer';
 import BrowseBooks from './components/BrowseBooks/BrowseBooks';
 import BookDetails from './components/BookDetails/BookDetails';
 import BookUpload from './components/BookUpload/BookUpload';
@@ -28,7 +28,7 @@ const App = () => {
         <Route path="/book/:id" element={<BookDetails />} />
         <Route path="/upload" element={<ProtectedRoute element={<BookUpload />} />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

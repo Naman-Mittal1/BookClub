@@ -8,7 +8,8 @@ router.get('/:id', bookController.getBookById);
 router.post('/', bookController.addNewBook);
 router.patch('/:id', bookController.updateBook);
 router.delete('/:id', bookController.deleteBook);
-router.get('/search', bookController.searchBooks);
+router.get('/search/:title', bookController.searchBooks);
+router.post('/comments', bookController.addComment);
 
 
 module.exports = router;

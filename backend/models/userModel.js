@@ -18,9 +18,6 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true 
   },
-  books: [{
-    type: mongoose.Schema.Types.ObjectId, ref:"Book"
-  }]
 });
 
 module.exports = mongoose.model('User', UserSchema);

@@ -20,7 +20,6 @@ const SearchComponent = () => {
   };
 
   useEffect(() => {
-    // Fetch initial data when the component mounts (e.g., popular books or recent releases)
     async function fetchInitialData() {
       const initialResults = await searchBooks('');
       setResults(initialResults);

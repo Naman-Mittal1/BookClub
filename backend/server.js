@@ -59,7 +59,7 @@ app.use('/api/reviews', reviewRoutes);
 app.use('/api/threads', threadRoutes);
 app.use('/api/chat', chatRoutes);   
 app.use('/api/books', requestBookRouter);   
-app.use('/api/comment', commentsRouter);   
+// app.use('/api/comment', commentsRouter);   
 
 
 app.listen(5000, ()=>{

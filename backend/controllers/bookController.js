@@ -93,18 +93,43 @@ const deleteBook = async (req, res) => {
 };
 
 const searchBooks = async (req, res) => {
-
   try {
-    const { query } = req.query;
+    const { title } = req.params;
 
     const books = await Book.find({
-      $text: { $search: query } 
+      title: { $regex: title, $options: 'i' }
     });
+
+    if (books.length === 0) {
+      return res.status(404).json({ status: 'fail', message: 'Books not found' });
+    }
 
     res.json(books);
   } catch (error) {
     console.error('Error searching books:', error);
     res.status(500).json({ error: 'An error occurred while searching for books.' });
+  }
+};
+
+const addComment = async (req, res) => {
+  try {
+
+    const { _id } = req.params;
+    const { comment, userID } = req.body;
+
+    const newComment = {
+      comment,
+      user: userID 
+    };
+
+    const book = await Book.findById(_id);
+    book.comments.push(newComment);
+    await book.save();  
+    res.status(201).json(book);
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server Error' }); 
   }
 }
 
@@ -114,3 +139,4 @@ exports.getBookById = getBookById
 exports.addNewBook = addNewBook
 exports.updateBook = updateBook
 exports.deleteBook = deleteBook
+exports.addComment = addComment;

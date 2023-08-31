@@ -25,13 +25,21 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // user: {
-  //   type: mongoose.Schema.Types.ObjectId,
-  //   ref: 'User',
-  //   required: true
-  // }
-  
-  
+  userComments: [{
+    username: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, 'Username is required field']
+    },
+    comment: {
+        type: String,
+        required: true
+      },
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }  
+  }],
 });
 
 module.exports = mongoose.model('Book', bookSchema);

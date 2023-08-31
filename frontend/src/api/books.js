@@ -38,19 +38,22 @@ export const addBook = async bookData  => {
   }
 };
 
-export const searchBooks = async (query) => {
-
+export const searchBooks = async (title) => {
   try {
-    const response = await api.get('/books', {
-      params: {
-        search: query
-      }
-    });
-
+    const response = await api.get(`/books/search/${title}`);
     return response.data;
   } catch (error) {
     console.error('Error searching books:', error);
     return [];
   }
+};
 
-}
+// export const addComment = async (bookId) => {
+//   try {
+//     const response = await api.get(`/books/${bookId}`);
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//     throw error;
+//   }
+// };
