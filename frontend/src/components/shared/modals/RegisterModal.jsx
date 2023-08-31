@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
-// import HomePage from "../../../pages/HomePage";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 
@@ -11,6 +10,8 @@ const RegisterModal = ({ isOpen, onRequestClose }) => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -22,7 +23,10 @@ const RegisterModal = ({ isOpen, onRequestClose }) => {
         password,
       });
       alert("Registration Completed! Now login.");
+      onRequestClose()
+      navigate("/")
     } catch (error) {
+      alert("Uername or Email Already Exist");
       console.error(error);
     }
   };

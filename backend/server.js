@@ -13,6 +13,8 @@ const bookRoutes = require('./routes/bookRoute');
 const reviewRoutes = require('./routes/reviewRoute'); 
 const threadRoutes = require('./routes/threadRoute'); 
 const chatRoutes = require('./routes/chatRoutes');
+const requestBookRouter = require('./routes/requestBookRoute');
+const commentsRouter = require('./routes/commentRoute');
 
 
 const app = express();
@@ -56,6 +58,8 @@ app.use('/api/books', bookRoutes);
 app.use('/api/reviews', reviewRoutes);
 app.use('/api/threads', threadRoutes);
 app.use('/api/chat', chatRoutes);   
+app.use('/api/books', requestBookRouter);   
+app.use('/api/comment', commentsRouter);   
 
 
 app.listen(5000, ()=>{

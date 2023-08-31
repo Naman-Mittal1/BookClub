@@ -21,7 +21,7 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
         username,
         password
       });
-      alert("login")
+      alert("Login Successful")
       setCookies("access_token", response.data.token)
       window.localStorage.setItem("userID", response.data.userID)
       navigate("/")

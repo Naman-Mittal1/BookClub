@@ -21,6 +21,9 @@ const AuthModal = () => {
       const closeRegisterModal = () => {
         setRegisterModalOpen(false);
       };
+
+
+
   return (
     <div className="space-x-4">
           <button

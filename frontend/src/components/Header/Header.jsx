@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import {useCookies} from "react-cookie"
 import AuthModal from "./AuthModal";
+import RequestModal from "./RequestModal";
 
 const Header = () => {
 
@@ -168,7 +169,7 @@ const Header = () => {
           </Link>
         </nav>
         <div className=" flex gap-6">
-        {!cookies.access_token? '' : <button className="bg-gray-800 hover:bg-gray-800 text-white text-sm py-2 px-4 rounded" onClick={logout}>Request a Book</button>}
+        {!cookies.access_token? '' : <RequestModal /> }
         {!cookies.access_token? <AuthModal /> : <button className="bg-blue-800 hover:bg-blue-600 text-sm font-bold py-2 px-4 rounded" onClick={logout}>LogOut</button>}
         </div>
        
@@ -176,5 +177,4 @@ const Header = () => {
     </header>
   );
 };
-
 export default Header;

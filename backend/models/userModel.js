@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true 
   },
-  uploadedBooks: [{
+  books: [{
     type: mongoose.Schema.Types.ObjectId, ref:"Book"
   }]
 });
