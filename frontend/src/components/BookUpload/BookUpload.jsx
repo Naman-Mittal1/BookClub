@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { addBook } from '../../api/books';
+import { toast } from 'react-toastify';
 
 const BookUpload = () => {
   const [formData, setFormData] = useState({
@@ -26,7 +27,16 @@ const BookUpload = () => {
 
     try {
         await addBook(formData);  
-        alert('Book added successfully');
+        toast.success("Book added successfully.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         setFormData({
           title: '',
           author: '',
@@ -38,7 +48,16 @@ const BookUpload = () => {
         });
       } catch (error) {
         console.error('Error:', error);
-        alert('Error adding book');
+        toast.error("Error adding book", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     };
 

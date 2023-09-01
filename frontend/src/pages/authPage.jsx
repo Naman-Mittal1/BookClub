@@ -83,7 +83,17 @@ const Register = () => {
         email,
         password,
       });
-      alert("Registration Completed! Now login.");
+      toast.success("Registration Completed! Now login.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      alert("");
     } catch (error) {
       console.error(error);
     }

@@ -7,6 +7,10 @@ import BrowseBooks from './components/BrowseBooks/BrowseBooks';
 import BookDetails from './components/BookDetails/BookDetails';
 import BookUpload from './components/BookUpload/BookUpload';
 import { useCookies } from 'react-cookie';
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 // import ProfilePage from './components/ProfilePage/ProfilePage';
 
 const App = () => {
@@ -14,7 +18,16 @@ const App = () => {
 
   const ProtectedRoute = ({ element }) => {
     if (!cookies.access_token) {
-      alert("You need to Login!")
+      toast.error("You need to Login!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       return <Navigate to="/" />;
       
     }
@@ -28,9 +41,9 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/browse-books" element={<BrowseBooks />} />
         <Route path="/book/:id" element={<BookDetails />} />
-        {/* <Route path="/profile" element={<ProfilePage />} /> */}
         <Route path="/upload" element={<ProtectedRoute element={<BookUpload />} />} />
       </Routes>
+      <ToastContainer />
       {/* <Footer /> */}
     </>
   );

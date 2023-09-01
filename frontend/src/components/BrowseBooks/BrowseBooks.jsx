@@ -3,6 +3,7 @@ import React from "react";
 
 import SearchBar from "../shared/Searchbar/Searchbar";
 
+
 const BrowseBooks = () => {
 
   return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from 'react-toastify';
 import { Link } from "react-router-dom";
 
 
@@ -22,11 +22,29 @@ const RegisterModal = ({ isOpen, onRequestClose }) => {
         email,
         password,
       });
-      alert("Registration Completed! Now login.");
       onRequestClose()
       navigate("/")
+      toast.success("Registration Completed! Now login.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
-      alert("Uername or Email Already Exist");
+      toast.error("Uername or Email Already Exist", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       console.error(error);
     }
   };

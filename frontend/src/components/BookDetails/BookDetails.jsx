@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { getBook } from '../../api/books';
 import RandomBooks from '../BrowseBooks/RandomBooks';
 import AddComment from '../AddComment/AddComment';
+import Loader from '../shared/Loader/Loader';
 
 const BookDetails = () => {
   const { id } = useParams();
@@ -25,7 +26,7 @@ const BookDetails = () => {
   }, [id]);
 
   if (!book) {
-    return <div>Loading...</div>;
+    return <Loader />
   }
 
   return (

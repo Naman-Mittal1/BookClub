@@ -2,6 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
+
+
 const RequestBookModal = ({ isOpen, onRequestClose }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
@@ -26,12 +29,31 @@ const RequestBookModal = ({ isOpen, onRequestClose }) => {
         year,
         additionalComment
       });
-      alert("Book Request Added")
+      toast.success("Book Request Added", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       resetForm();
       navigate("/")
       onRequestClose();
     } catch (error) {
-      alert("Book is Already Requested..")
+      
+      toast.error("Book is Already Requested..", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }
   };
 

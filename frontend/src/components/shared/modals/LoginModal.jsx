@@ -3,6 +3,8 @@ import axios from "axios";
 import {useCookies} from 'react-cookie'
 import { useNavigate } from "react-router-dom";
 // import { loginUser } from "../../../api/auth";
+import { toast } from 'react-toastify';
+
 
 import { Link } from "react-router-dom";
 const LoginModal = ({ isOpen, onRequestClose }) => {
@@ -21,13 +23,31 @@ const LoginModal = ({ isOpen, onRequestClose }) => {
         username,
         password
       });
-      alert("Login Successful")
       setCookies("access_token", response.data.token)
       window.localStorage.setItem("userID", response.data.userID)
       navigate("/")
       onRequestClose();
+      toast.success("Login Successful", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     } catch (error) {
-      alert("Username or Password is Incorrect")
+      toast.error("Username or Password is Incorrect", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       console.error(error);
     }
   };
