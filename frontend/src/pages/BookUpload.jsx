@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { addBook } from '../../api/books';
+import { addBook } from '../api/books';
 import { toast } from 'react-toastify';
 
 const BookUpload = () => {
@@ -62,7 +62,7 @@ const BookUpload = () => {
     };
 
   return (
-    <div className="bg-dark h-screen flex items-center justify-center">
+    <div className="bg-dark h-auto mt-8 flex items-center justify-center">
       <div className="w-full max-w-md p-6 bg-gray-800 rounded-lg shadow-lg">
         <h2 className="text-white text-2xl mb-4">Add New Book</h2>
         <form onSubmit={handleSubmit}>

@@ -1,17 +1,17 @@
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
+
 import Header from './components/Header/Header';
 import HomePage from './pages/HomePage';
-// import Footer from './components/Footer/Footer';
+import Footer from './components/Footer/Footer';
 import BrowseBooks from './components/BrowseBooks/BrowseBooks';
+import BookUpload from './pages/BookUpload';
 import BookDetails from './components/BookDetails/BookDetails';
-import BookUpload from './components/BookUpload/BookUpload';
+
 import { useCookies } from 'react-cookie';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
-// import ProfilePage from './components/ProfilePage/ProfilePage';
 
 const App = () => {
  const [cookies,] = useCookies(["access_token"])
@@ -44,7 +44,7 @@ const App = () => {
         <Route path="/upload" element={<ProtectedRoute element={<BookUpload />} />} />
       </Routes>
       <ToastContainer />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

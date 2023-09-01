@@ -3,8 +3,6 @@ import { sampleSize } from 'lodash';
 
 import { Link } from "react-router-dom";
 import { getBooks } from "../../api/books";
-// import BookCard from "../BookCard/BookCard";
-// import RandomBookCard from "../BookCard/RandomBookCard";
 import RandomBookCard from "../RandomBookCard/RandomBookCard";
 
 const RandomBooks = () => {
