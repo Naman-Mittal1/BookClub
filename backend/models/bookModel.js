@@ -25,6 +25,9 @@ const bookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  downloadLink:{
+    type: String,
+  },
   userComments: [{
     username: {
         type: mongoose.Schema.Types.ObjectId,

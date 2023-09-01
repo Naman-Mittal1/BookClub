@@ -8,7 +8,8 @@ const BookUpload = () => {
     genre: '',
     description: '',
     image: '',
-    year: ''
+    year: '',
+    downloadLink: ''
   });
 
  
@@ -32,7 +33,8 @@ const BookUpload = () => {
           genre: '',
           description: '',
           image: '',
-          year: ''
+          year: '',
+          downloadLink: ''
         });
       } catch (error) {
         console.error('Error:', error);
@@ -99,6 +101,16 @@ const BookUpload = () => {
             type="number"
             name="year"
             value={formData.year}
+            onChange={handleChange}
+            className="w-full bg-gray-700 rounded-md p-2 mb-4 text-white"
+            required
+          />
+
+          <label className="text-white">Enter Download Link: </label>
+          <input
+            type="text"
+            name="downloadLink"
+            value={formData.downloadLink}
             onChange={handleChange}
             className="w-full bg-gray-700 rounded-md p-2 mb-4 text-white"
             required

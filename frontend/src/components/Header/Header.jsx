@@ -57,10 +57,10 @@ const Header = () => {
             onMouseEnter={toggleExploreDropdown}
             onMouseLeave={handleExploreMouseLeave}
           >
-            <button className="hover:text-gray-300 focus:outline-none">
+            <Link to="/explore" className="hover:text-gray-300 focus:outline-none">
               Explore
-            </button>
-            {isExploreDropdownOpen && (
+            </Link>
+            {/* {isExploreDropdownOpen && (
               <div className="absolute left-0 w-max mt-2 bg-gray-800 text-white p-4 z-10">
                 <div className="grid grid-cols-2 gap-10">
                   <div>
@@ -128,7 +128,7 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
           <div
             className="relative group"
@@ -156,7 +156,7 @@ const Header = () => {
                   to="/browse-books"
                   className="text-gray-300 hover:text-white hover:bg-gray-700 p-4 py-2 block mb-"
                 >
-                  Coins Leaderboard
+                  Club Coins Leaderboard
                 </Link>
               </div>
             )}

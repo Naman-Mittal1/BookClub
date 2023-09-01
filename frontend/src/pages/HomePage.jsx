@@ -1,15 +1,17 @@
 // HomePage.jsx
 
 import React, { useState } from 'react';
-
+import { useNavigate } from "react-router-dom";
 import { BsSearch } from 'react-icons/bs';
 
 const HomePage = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
-
+  const navigate = useNavigate();
   const handleSearch = (e) => {
-    // Submit search query
+    e.preventDefault();
+    navigate('/browse-books')
+
   }
 
   return (
@@ -22,7 +24,7 @@ const HomePage = () => {
       </p>
 
       <div className="w-full max-w-3xl">
-        <div className="relative flex items-center bg-white rounded-xl overflow-hidden shadow-md h-12">
+        <form onSubmit={handleSearch} className="relative flex items-center bg-white rounded-xl overflow-hidden shadow-md h-12">
           
           <input 
             type="text"
@@ -34,12 +36,12 @@ const HomePage = () => {
 
           <button
             className="absolute right-0 p-3 text-gray-500 hover:text-blue-500"
-            onClick={handleSearch}  
+           type='submit' 
           >
             <BsSearch size={22} />
           </button>
 
-        </div>
+        </form>
       </div>
 
     </div>

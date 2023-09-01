@@ -7,12 +7,14 @@ import BrowseBooks from './components/BrowseBooks/BrowseBooks';
 import BookDetails from './components/BookDetails/BookDetails';
 import BookUpload from './components/BookUpload/BookUpload';
 import { useCookies } from 'react-cookie';
+// import ProfilePage from './components/ProfilePage/ProfilePage';
 
 const App = () => {
  const [cookies,] = useCookies(["access_token"])
 
   const ProtectedRoute = ({ element }) => {
     if (!cookies.access_token) {
+      alert("You need to Login!")
       return <Navigate to="/" />;
       
     }
@@ -26,6 +28,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/browse-books" element={<BrowseBooks />} />
         <Route path="/book/:id" element={<BookDetails />} />
+        {/* <Route path="/profile" element={<ProfilePage />} /> */}
         <Route path="/upload" element={<ProtectedRoute element={<BookUpload />} />} />
       </Routes>
       {/* <Footer /> */}

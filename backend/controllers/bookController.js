@@ -31,7 +31,7 @@ const getBookById = async (req, res) => {
 };
 
 const addNewBook = async (req, res) => {
-  const { title, author, genre, description, image, year } = req.body;
+  const { title, author, genre, description, image, year, downloadLink } = req.body;
   console.log(req.body);
   const existingBook = await Book.findOne({ title });
 
@@ -44,7 +44,7 @@ const addNewBook = async (req, res) => {
 
   try {
     const newBook = await Book.create({
-      title, author, genre, description, image, year
+      title, author, genre, description, image, year, downloadLink
     });
     res.status(201).json({
       status: 'success',
